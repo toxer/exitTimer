@@ -6,13 +6,34 @@ angular.module('time.controllers', [])
         //salvataggio e retrive dei dati
        
         var lastData = null
-        
-        
+
+
+
+        $scope.sendMail = function () {
+            
+            var body = "<html><body><h2>Riepilogo timbrature</h2> </br><b>Entrata</b> "+$scope.enterTime.inputepoch
+            console.info(body)
+            if (window.plugins && window.plugins.emailComposer && $scope.mailTo) {
+                window.plugins.emailComposer.showEmailComposerWithCallback(function (result) {
+                    console.log("Response -> " + result);
+                },
+                    "Riepilogo timbrature del " + lastData, // Subject
+                    body,                      // Body
+                    [$scope.mailTo],    // To
+                    null,                    // CC
+                    null,                    // BCC
+                    true,                   // isHTML
+                    null,                    // Attachments
+                    null);                   // Attachment Data
+            }
+        }
+
+
 
 
 
         $scope.$on('$ionicView.enter', function () {
-
+           
             lastData = window.localStorage['lastData']
 
             if (lastData == "null") {
@@ -23,9 +44,9 @@ angular.module('time.controllers', [])
             else {
 
                 if (lastData == moment().format("DD-MM-YYYY")) {
-                    enterTimeCallback.inputEpochTime = window.localStorage['enterTime']
-                    exitLunchTimeTimeCallback.inputEpochTime = window.localStorage['exitLunchTime']
-                    enterLunchTimeTimeCallback.inputEpochTime = window.localStorage['enterLunchTime']
+                    $scope.enterTime.inputEpochTime = window.localStorage['enterTime']
+                    $scope.exitLunchTime.inputEpochTime = window.localStorage['exitLunchTime']
+                    $scope.enterLunchTime.inputEpochTime = window.localStorage['enterLunchTime']
                 }
                 else {
                     clearAll()
@@ -60,7 +81,19 @@ angular.module('time.controllers', [])
             } else {
                 $scope.password = window.localStorage['password']
             }
+            $scope.mailTo = window.localStorage['mailTo']
+            if ($scope.mailTo == null) {
+                $scope.mailTo = "";
 
+            } else {
+                $scope.mailTo = window.localStorage['mailTo']
+            }
+           
+           $scope.data = new Object()
+            $scope.data.isMailPresent = ($scope.mailTo != null && $scope.mailTo != 'undefined')
+          
+        
+            
         });
 
 
@@ -72,6 +105,7 @@ angular.module('time.controllers', [])
             $scope.enterTime.inputEpochTime = window.localStorage['enterTime'];
             $scope.exitLunchTime.inputEpochTime = window.localStorage['exitLunchTime'];
             $scope.enterLunchTime.inputEpochTime = window.localStorage['enterLunchTime'];
+            $scope.mailTo = window.localStorage['mailTo']
             calcTime()
         }
 
@@ -343,12 +377,13 @@ angular.module('time.controllers', [])
 
         }
         calcTime();
+
     })
     .controller('DeviceCtrl', function ($scope, $http) {
 
     }
         )
-    .controller('SetupCtrl', function ($scope, $http,$ionicPopup) {
+    .controller('SetupCtrl', function ($scope, $http, $ionicPopup) {
         $scope.setup = new Object()
         $scope.$on('$ionicView.enter', function () {
             //caricamento dei dati
@@ -376,6 +411,15 @@ angular.module('time.controllers', [])
                 $scope.setup.password = window.localStorage['password']
             }
 
+            $scope.setup.mailTo = window.localStorage['mailTo']
+            if ($scope.setup.mailTo == null || $scope.setup.mailTo == 'undefined') {
+                $scope.setup.mailTo = ""
+
+            } else {
+                $scope.setup.mailTo = window.localStorage['mailTo']
+            }
+
+
 
 
 
@@ -385,15 +429,17 @@ angular.module('time.controllers', [])
 
         $scope.saveData = function (setup) {
 
-            console.log("Save " + setup.username)
+
             window.localStorage['serviceUrl'] = setup.serviceUrl;
             window.localStorage['username'] = setup.username;
             window.localStorage['password'] = setup.password;
+            window.localStorage['mailTo'] = setup.mailTo;
             $ionicPopup.alert({
-                            title: 'Salvataggio',
-                            template: 'I dati sono stati salvati'
-                        });
+                title: 'Salvataggio',
+                template: 'I dati sono stati salvati ' + setup.mailTo
+            });
         }
+
 
 
 

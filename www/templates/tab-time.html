@@ -2,7 +2,11 @@
     <ion-content padding="true">
         <!--<input type="date" ng-model="timeEnter" ng-change="calcola(timeEnter,'{{timeEnter}}')" />-->
         <div class="row label1">
-            <button ng-click="sipertLogin()" class="button  button-balanced overflowShow ion-clock"></button>
+            <div class="col text-left" on-swipe-right="nowEnter()">
+                <button ng-click="sipertLogin()" class="button  button-balanced overflowShow ion-clock"></button>
+                  <button ng-click="sendMail()" class="button  button-assertive overflowShow ion-email"></button>
+            </div>
+           
         </div>
         <div class="row label1">
             <div class="col text-center" on-swipe-right="nowEnter()">
