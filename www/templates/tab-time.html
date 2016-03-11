@@ -1,0 +1,98 @@
+<ion-view view-title="Time">
+    <ion-content padding="true">
+        <!--<input type="date" ng-model="timeEnter" ng-change="calcola(timeEnter,'{{timeEnter}}')" />-->
+        <div class="row label1">
+            <button ng-click="sipertLogin()" class="button  button-balanced overflowShow ion-clock"></button>
+        </div>
+        <div class="row label1">
+            <div class="col text-center" on-swipe-right="nowEnter()">
+                Ora di arrivo
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <ionic-timepicker input-obj="enterTime">
+                    <button class="button button-block button-positive overflowShow">
+                        <standard-time-meridian etime='enterTime.inputEpochTime'></standard-time-meridian>
+                    </button>
+                </ionic-timepicker>
+            </div>
+        </div>
+
+
+        <ionic-timepicker input-obj="exitLunchTime">
+            <div class="row label1">
+                <div class="col text-center" on-swipe-right="nowExitLunch()">
+                    Ora di uscita per pranzo
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <button class="button button-block button-positive overflowShow">
+                        <standard-time-meridian etime='exitLunchTime.inputEpochTime'></standard-time-meridian>
+                    </button>
+                </div>
+            </div>
+        </ionic-timepicker>
+
+        <ionic-timepicker input-obj="enterLunchTime">
+            <div class="row label1">
+                <div class="col text-center" on-swipe-right="nowEnterLunch()">
+                    Ora di rientro dal pranzo
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <button class="button button-block button-positive overflowShow">
+                        <standard-time-meridian etime='enterLunchTime.inputEpochTime'></standard-time-meridian>
+                    </button>
+                </div>
+            </div>
+        </ionic-timepicker>
+
+
+        <div class="row label1">
+            <div class="col text-center">
+                Ora di uscita dopo 7 ore
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+
+                <standard-time-meridian etime='toWork7'></standard-time-meridian>
+
+            </div>
+        </div>
+
+        <div class="row label1">
+            <div class="col text-center">
+                Ora di uscita dopo 8 ore
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+
+                <standard-time-meridian etime='toWork8'></standard-time-meridian>
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col text-center">
+                Pranzo:
+                <standard-time-no-meridian class="" etime='lunch'></standard-time-no-meridian>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col text-center">
+
+                <button class="button  button-assertive overflowShow" ng-click="resetTime()">Reset</button>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

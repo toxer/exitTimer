@@ -1,0 +1,15 @@
+/* Empty. Add your own CSS if you like */
+.label1{
+   
+      font-weight: bold;
+      color:#b94141;
+      margin-left: 1px;
+      margin-right: 1px;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      display:block;
+      padding-right: 12px;
+      padding-left:12px;
+}
