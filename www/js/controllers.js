@@ -2,7 +2,25 @@ angular.module('time.controllers', [])
 
     .controller('TimeCtrl', function ($scope, $filter, $http, $ionicPopup) {
         
+         function prependZero(param) {
+        if (String(param).length < 2) {
+          return "0" + String(param);
+        }
+        return param;
+      }
+
+      function epochParser(val) {
+        if (val === null) {
+          return "00:00";
+        } else {
         
+            var hours = parseInt(val / 3600);
+            var minutes = (val / 60) % 60;
+
+            return (prependZero(hours) + ":" + prependZero(minutes));
+          
+        }
+      }
         //salvataggio e retrive dei dati
        
         var lastData = null
@@ -11,8 +29,9 @@ angular.module('time.controllers', [])
 
         $scope.sendMail = function () {
             
-            var body = "<html><body><h2>Riepilogo timbrature</h2> </br><b>Entrata</b> "+$scope.enterTime.inputepoch
-            console.info(body)
+            var body = "<html><body><h2>Riepilogo timbrature</h2> <br><b>Entrata</b> "+epochParser($scope.enterTime.inputEpochTime)+"<br>"+"<b>Uscita pranzo</b> "+epochParser($scope.exitLunchTime.inputEpochTime)+"<br>"+"<b>Rientro pranzo</b> "+epochParser($scope.enterLunchTime.inputEpochTime)+"<br>"+"<b>Uscita dopo 7 ore</b> "+epochParser($scope.toWork7)+"<br>"+"<b>Uscita dopo 8 ore</b> "+epochParser($scope.toWork8)+"<br>"
+         
+          //  console.info(body)
             if (window.plugins && window.plugins.emailComposer && $scope.mailTo) {
                 window.plugins.emailComposer.showEmailComposerWithCallback(function (result) {
                     console.log("Response -> " + result);
@@ -47,6 +66,7 @@ angular.module('time.controllers', [])
                     $scope.enterTime.inputEpochTime = window.localStorage['enterTime']
                     $scope.exitLunchTime.inputEpochTime = window.localStorage['exitLunchTime']
                     $scope.enterLunchTime.inputEpochTime = window.localStorage['enterLunchTime']
+                    calcTime();
                 }
                 else {
                     clearAll()
@@ -436,7 +456,7 @@ angular.module('time.controllers', [])
             window.localStorage['mailTo'] = setup.mailTo;
             $ionicPopup.alert({
                 title: 'Salvataggio',
-                template: 'I dati sono stati salvati ' + setup.mailTo
+                template: 'I dati sono stati salvati'
             });
         }
 
