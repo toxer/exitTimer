@@ -1,26 +1,26 @@
 angular.module('time.controllers', [])
 
     .controller('TimeCtrl', function ($scope, $filter, $http, $ionicPopup) {
-        
-         function prependZero(param) {
-        if (String(param).length < 2) {
-          return "0" + String(param);
-        }
-        return param;
-      }
 
-      function epochParser(val) {
-        if (val === null) {
-          return "00:00";
-        } else {
-        
-            var hours = parseInt(val / 3600);
-            var minutes = (val / 60) % 60;
-
-            return (prependZero(hours) + ":" + prependZero(minutes));
-          
+        function prependZero(param) {
+            if (String(param).length < 2) {
+                return "0" + String(param);
+            }
+            return param;
         }
-      }
+
+        function epochParser(val) {
+            if (val === null) {
+                return "00:00";
+            } else {
+
+                var hours = parseInt(val / 3600);
+                var minutes = (val / 60) % 60;
+
+                return (prependZero(hours) + ":" + prependZero(minutes));
+
+            }
+        }
         //salvataggio e retrive dei dati
        
         var lastData = null
@@ -28,10 +28,10 @@ angular.module('time.controllers', [])
 
 
         $scope.sendMail = function () {
-            
-            var body = "<html><body><h2>Riepilogo timbrature</h2> <br><b>Entrata</b> "+epochParser($scope.enterTime.inputEpochTime)+"<br>"+"<b>Uscita pranzo</b> "+epochParser($scope.exitLunchTime.inputEpochTime)+"<br>"+"<b>Rientro pranzo</b> "+epochParser($scope.enterLunchTime.inputEpochTime)+"<br>"+"<b>Uscita dopo 7 ore</b> "+epochParser($scope.toWork7)+"<br>"+"<b>Uscita dopo 8 ore</b> "+epochParser($scope.toWork8)+"<br>"
+
+            var body = "<html><body><h2>Riepilogo timbrature</h2> <br><b>Entrata</b> " + epochParser($scope.enterTime.inputEpochTime) + "<br>" + "<b>Uscita pranzo</b> " + epochParser($scope.exitLunchTime.inputEpochTime) + "<br>" + "<b>Rientro pranzo</b> " + epochParser($scope.enterLunchTime.inputEpochTime) + "<br>" + "<b>Uscita dopo 7 ore</b> " + epochParser($scope.toWork7) + "<br>" + "<b>Uscita dopo 8 ore</b> " + epochParser($scope.toWork8) + "<br>"
          
-          //  console.info(body)
+            //  console.info(body)
             if (window.plugins && window.plugins.emailComposer && $scope.mailTo) {
                 window.plugins.emailComposer.showEmailComposerWithCallback(function (result) {
                     console.log("Response -> " + result);
@@ -52,7 +52,8 @@ angular.module('time.controllers', [])
 
 
         $scope.$on('$ionicView.enter', function () {
-           
+
+
             lastData = window.localStorage['lastData']
 
             if (lastData == "null") {
@@ -108,13 +109,21 @@ angular.module('time.controllers', [])
             } else {
                 $scope.mailTo = window.localStorage['mailTo']
             }
-           
-           $scope.data = new Object()
-            $scope.data.isMailPresent = ($scope.mailTo != null && $scope.mailTo != 'undefined')
-          
-        
-            
+
+            $scope.data = new Object()
+
+
         });
+
+        $scope.isMailPresent=function() {
+
+               return $scope.mailTo != null && $scope.mailTo != 'undefined' && $scope.mailTo != ''
+        }
+        
+        $scope.isSipertPresent=function() {
+
+               return $scope.username != null && $scope.username != 'undefined' && $scope.username != '' && $scope.password != null && $scope.password != 'undefined' && $scope.password != ''
+        }
 
 
         function clearAll() {
@@ -355,8 +364,8 @@ angular.module('time.controllers', [])
                 $scope.enterTime.inputEpochTime = 9 * 3600 + 30 * 60
             }
 
-            if ($scope.enterTime.inputEpochTime < 8 * 3600 + 30 * 60) {
-                $scope.enterTime.inputEpochTime = 8 * 3600 + 30 * 60
+            if ($scope.enterTime.inputEpochTime < 8 * 3600) {
+                $scope.enterTime.inputEpochTime = 8 * 3600
             }
 
 

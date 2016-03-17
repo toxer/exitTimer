@@ -3,9 +3,10 @@
         <!--<input type="date" ng-model="timeEnter" ng-change="calcola(timeEnter,'{{timeEnter}}')" />-->
         <div class="row label1">
             <div class="col text-left" on-swipe-right="nowEnter()">
-                <button ng-click="sipertLogin()" class="button  button-balanced overflowShow ion-clock"></button>
-                  <button ng-click="sendMail()" class="button  button-assertive overflowShow ion-email"></button>
+                <button ng-click="sipertLogin()" ng-show="isSipertPresent()" class="button  button-balanced overflowShow ion-clock"></button>
+                  <button ng-click="sendMail()"  ng-show="isMailPresent()" class="button  button-assertive overflowShow ion-email"></button>
             </div>
+            {{data.isMailPresent}}
            
         </div>
         <div class="row label1">
